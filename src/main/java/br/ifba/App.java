@@ -81,7 +81,7 @@ public class App
 			System.out.println(textoCifrado);
 			
 		}catch (InvalidParameterException e) {
-			System.out.println("entre com o texto e a chave de criptografia ex.: texto chave");
+			System.out.println("entre com a operacao, o texto e a chave de criptografia ex.: encript|decript texto chave");
 		}
 		
 		catch(Exception e ) {

@@ -1,6 +1,8 @@
 package br.ifba;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import br.ifba.exception.InvalidParameterException;
 
@@ -11,6 +13,8 @@ import br.ifba.exception.InvalidParameterException;
 public class App 
 {
 	
+	private static final String REGEX = "[^A-Z]{1,}";
+
 	private static final String DECRIPT = "DECRIPT";
 
 	private static final String ENCRIPT = "ENCRIPT";
@@ -29,11 +33,28 @@ public class App
 				
 	}
 	
+	private static boolean validateField(String value) {
+		
+		boolean validate = true;
+		
+		Pattern pattern = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
+	    Matcher matcher = pattern.matcher(value);
+	    boolean matchFound = matcher.find();
+	    
+	    if(matchFound) {
+	    	validate = false;
+	    } 
+	    
+	    return validate;
+	}
+	
+	
     public static void main( String[] args )
     {
     	try {
     		
-			if (args.length!=3 || (args[0].length()==0 && ENCRIPT.equals(args[0]) || DECRIPT.equals(args[0])) || args[1].length()==0 || args[2].length()==0) {
+			if (args.length!=3 || (args[0].length()==0 && ENCRIPT.equals(args[0]) || DECRIPT.equals(args[0])) || 
+					args[1].length()==0 || !validateField(args[1]) || args[2].length()==0 || !validateField(args[2])) {
 				throw new InvalidParameterException("Parametros inavalidos....");
 			}
     	    	
@@ -81,7 +102,7 @@ public class App
 			System.out.println(textoCifrado);
 			
 		}catch (InvalidParameterException e) {
-			System.out.println("entre com a operacao, o texto e a chave de criptografia ex.: encript|decript texto chave");
+			System.out.println("entre com a operacao, o texto e a chave de criptografia ex.: encript|decript texto chave. Obs.: o texto e a chave so podem conter letras");
 		}
 		
 		catch(Exception e ) {
